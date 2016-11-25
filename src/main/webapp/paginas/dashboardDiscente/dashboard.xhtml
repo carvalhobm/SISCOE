@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<body>
+	<h:form>
+
+		<p:dashboard id="board" model="#{dashboardMB.visao.model}"
+			rendered="#{p:ifGranted('ROLE_DISCENTE')}" style="width: 100%;">
+
+			<c:forEach
+				items="#{dashboardMB.visao.entidade.listaUsuarioDisciplina}"
+				var="coluna">
+				<p:panel id="#{coluna.disciplina.noDisciplinaFormatado}"
+					header="#{coluna.disciplina.noDisciplina}"
+					styleClass="marginLeft marginTop marginRight">
+					<p:panelGrid id="gridAvaliacao" columns="4" layout="grid"
+						styleClass="ui-panelgrid-blank">
+						<c:forEach items="#{coluna.listaAvaliacaoUsuario}"
+							var="avaliacaoUsuario">
+							<p:outputLabel value="#{avaliacaoUsuario.avaliacao.noAvaliacao}:" />
+							<p:outputLabel value="#{avaliacaoUsuario.vrAvaliacao}" />
+						</c:forEach>
+					</p:panelGrid>
+					<f:facet name="footer">
+						<p:panelGrid id="gridRodape" columns="2" layout="grid"
+							styleClass="ui-panelgrid-blank">
+							<p:outputLabel value="Média:" style="vertical-align: sub;" />
+							<p:outputLabel value="#{coluna.vrMediaFinal}"
+								style="vertical-align: sub;" />
+						</p:panelGrid>
+						<p:panelGrid id="gridRodape" columns="2" layout="grid"
+							styleClass="ui-panelgrid-blank">
+							<p:outputLabel value="Faltas:" style="vertical-align: sub;" />
+							<p:outputLabel value="#{coluna.qtFaltas}"
+								style="vertical-align: sub;" />
+							</p:panelGrid>
+					</f:facet>
+				</p:panel>
+			</c:forEach>
+
+		</p:dashboard>
+	</h:form>
+</body>
+
+</html>

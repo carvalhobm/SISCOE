@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/template.xhtml">
+	<ui:define name="breadgrub">
+		<h:form>
+			<h:commandLink id="commandLinkSistemaInicio" styleClass="hiperlink"
+				value="#{msg.sistema_inicio}" action="/paginas/index.jsf" />
+		</h:form>
+
+	</ui:define>
+	<ui:define name="content">
+		<ui:include src="/paginas/dashboardDiscente/dashboard.xhtml" />
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template/template.xhtml">
+
+	<ui:define name="breadgrub">
+		<h:form>
+			<h:commandLink id="breadInicio" styleClass="hiperlink"
+				value="#{msg.sistema_inicio}" action="/paginas/index.jsf" />
+
+			<p:outputLabel value="#{msg.bread_separator}" styleClass="marginLeft" />
+
+			<h:commandLink id="breadUsuario" styleClass="hiperlink"
+				value="Disciplinas"
+				action="/paginas/matriculaDisciplina/consulta.jsf" />
+		</h:form>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+
+			<h2 class="titulo" style="padding-left: 15px; padding-bottom: 5px;">Disciplinas</h2>
+			<fieldset>
+				<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+					<p:outputLabel value="Disciplina:" />
+					<p:inputText value="#{matriculaMB.visao.filtro.noDisciplina}" />
+					<p:outputLabel value="Carga Horária:" />
+					<p:selectOneMenu style="width: 80%;"
+						value="#{matriculaMB.visao.filtro.nuCargaHoraria}">
+						<f:selectItem itemValue="0" itemLabel="Selecionar" />
+						<f:selectItems value="#{matriculaMB.visao.listaHoraria}"
+							var="carga" itemValue="#{carga.qtCargaHoraria}"
+							itemLabel="#{carga.noCargaHoraria}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+			</fieldset>
+
+			<p:panelGrid>
+				<p:commandButton id="btnFiltrar" value="Filtrar" icon="fa fa-filter"
+					styleClass="marginBottom marginTop" ajax="false"
+					update="tableDisciplina" action="#{matriculaMB.filtrarDisciplina}" />
+			</p:panelGrid>
+
+			<p:dataTable id="tableDisciplina" paginator="true" rows="10"
+				value="#{matriculaMB.visao.listaDisciplina}" var="disciplina"
+				style="width: 100%;" emptyMessage="#{msg.MA001}"
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				sortBy="#{disciplina.nuDisciplina}" sortOrder="ascending">
+
+				<f:facet name="header">
+					<p:outputLabel value="Resultados" />
+				</f:facet>
+
+				<p:column headerText="Id" style="width: 5%;">
+					<p:outputLabel value="#{disciplina.nuDisciplina}" />
+				</p:column>
+
+				<p:column headerText="Disciplina"
+					sortBy="#{disciplina.noDisciplina}">
+					<p:outputLabel value="#{disciplina.noDisciplina}" />
+				</p:column>
+
+				<p:column headerText="Carga Horária" style="width: 10%;"
+					sortBy="#{disciplina.nuCargaHoraria}">
+					<p:outputLabel value="#{disciplina.nuCargaHoraria}" />
+				</p:column>
+
+				<p:column headerText="Hora/Aula"
+					style="width: 10%; text-align: center;"
+					sortBy="#{disciplina.nuCargaHoraria}">
+					<p:outputLabel value="#{disciplina.nuHoraAula}" />
+				</p:column>
+
+				<p:column headerText="Ação" style="width: 8%; text-align: center;">
+					<p:commandButton icon="fa fa-search" title="Detalhe"
+						action="#{matriculaMB.abrirTelaDetalhe(disciplina)}" ajax="false" />
+					<p:commandButton icon="fa fa-book" title="Matricular"
+						disabled="#{disciplina.usuarioMatriculado}" update="@form"
+						action="#{matriculaMB.matricular(disciplina)}" ajax="false" />
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

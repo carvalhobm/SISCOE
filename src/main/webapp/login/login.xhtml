@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+
+	<title>#{msg.titulo_login}</title>
+
+</h:head>
+
+<ui:composition template="/template/template_externo.xhtml">
+
+	<ui:define name="content">
+
+		<p:panelGrid columns="1" width="100%" styleClass="ui-panelgrid-blank"
+			style="margin-left:auto; margin-right: auto;">
+			<h:form id="loginForm" action="/j_spring_security_check"
+				method="post" prependId="false"
+				onclick="document.#{p:component('loginForm')}.action='/j_spring_security_check';">
+
+				<p:outputLabel value="Login" styleClass="titulo"
+					style="font-size: 24px;" />
+				<p:separator />
+
+				<p:panelGrid columns="2" class="noBorder">
+
+
+					<p:outputLabel value="Usuário" />
+					<p:inputText id="j_username" required="true" />
+
+					<p:outputLabel value="Senha" />
+					<p:password id="j_password" required="true" />
+
+					<p:outputLabel value="" />
+					<p:commandButton value="#{msg.botao_entrar}" type="submit"
+						ajax="false" style="float: right;" icon="fa fa-sign-in" />
+				</p:panelGrid>
+			</h:form>
+			<h:form>
+				<p:row>
+					<h:commandLink action="#{cadastroMB.getTelaInclusaoExterna}"
+						value="Cadastre-se" immediate="true" style="float: right;" />
+				</p:row>
+			</h:form>
+
+		</p:panelGrid>
+
+	</ui:define>
+</ui:composition>
+
+</html>

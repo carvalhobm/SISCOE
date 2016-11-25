@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<f:view encoding="ISO-8859-1" />
+
+	<title>#{msg.sistema_nome}</title>
+
+
+	<meta http-equiv="refresh"
+		content="#{session.maxInactiveInterval};url=/index.html" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<link rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css"
+		type="text/css" media="screen, projection" />
+	<link rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/primefaces-custom.css"
+		type="text/css" media="screen, projection" />
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/geral.js"></script>
+	<ui:insert name="header"></ui:insert>
+
+</h:head>
+
+<h:body>
+
+	<div id="tudo">
+		<div id="wrapTopo">
+			<div id="topo">
+
+				<h2 onclick=" window.location='#{request.contextPath}/index.html'"
+					style="cursor: pointer;">#{msg.sistema_nome}</h2>
+
+			</div>
+		</div>
+
+		<div id="wrapConteudo">
+			<div id="conteudo" style="padding: 15px;">
+
+				<div>
+					<ui:insert name="content"></ui:insert>
+				</div>
+
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<div id="wrapRodape">
+			<div id="rodape">
+				<p>#{msg.sistema} - #{msg.sistema_nome}</p>
+				<span style="float: right; margin-right: 20px; margin-top: 10px;">#{msg.sistema_versao}:
+					#{msg.version}</span>
+			</div>
+		</div>
+	</div>
+
+	<h:form id="form_dialogo_mensagem">
+		<p:dialog id="msgDialog" widgetVar="messageDialog" resizable="false"
+			modal="true" closable="false" header="#{msg.sistema_nome}"
+			visible="#{cadastroMB.visao.mensagemSucesso ne null}"
+			onShow="setTimeout(function(){$('#form_dialogo_mensagem\\:gridModalMensagem  a').focus();},50);">
+
+			<h:outputLabel value="#{cadastroMB.visao.mensagemSucesso}"
+				styleClass="marginLeft marginBottom" />
+
+			<h:panelGrid columns="1" style="margin-left:auto;margin-right:auto;"
+				id="gridModalMensagem">
+				<p:commandButton id="btnFecharModalMessageDialog"
+					update=":form_dialogo_mensagem" styleClass="btnLaranja marginTop"
+					ignoreAutoUpdate="true" global="false"
+					onclick="PF('messageDialog').hide();" value="#{msg.botao_fechar}"
+					action="#{cadastroMB.limparMensagem}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+
+</h:body>
+</html>

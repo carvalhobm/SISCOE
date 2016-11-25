@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template/template.xhtml">
+
+	<ui:define name="breadgrub">
+		<h:form>
+			<h:commandLink id="breadInicio" styleClass="hiperlink"
+				value="#{msg.sistema_inicio}" action="/paginas/index.jsf" />
+
+			<p:outputLabel value="#{msg.bread_separator}" styleClass="marginLeft" />
+
+			<h:commandLink id="breadUsuario" styleClass="hiperlink"
+				value="Usuários" action="/paginas/cadastroUsuario/consulta.jsf" />
+		</h:form>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+
+			<h2 class="titulo" style="padding-left: 15px; padding-bottom: 5px;">Cadastro
+				de usuário</h2>
+
+			<p:panelGrid columns="2" columnClasses="ui-lg-1,ui-lg-2"
+				layout="grid" styleClass="ui-panelgrid-blank"
+				style="margin-left:auto; margin-right: auto;">
+
+				<p:outputLabel for="inputNome" value="Nome:" />
+				<p:inputText id="inputNome"
+					value="#{cadastroMB.visao.entidade.noUsuario}" required="true"
+					requiredMessage="Usuário: Campo obrigatório!" style="width: 100%;" />
+
+				<p:outputLabel for="inputSobreNome" value="Sobrenome:" />
+				<p:inputText id="inputSobreNome"
+					value="#{cadastroMB.visao.entidade.noSobrenomeUsuario}"
+					required="true" requiredMessage="Sobrenome: Campo obrigatório!"
+					style="width: 100%;" />
+
+				<p:outputLabel for="inputEmail" value="E-mail:" />
+				<p:inputText id="inputEmail"
+					value="#{cadastroMB.visao.entidade.noEmail}" required="true"
+					requiredMessage="E-mail: Campo obrigatório!" style="width: 100%;" />
+
+				<p:outputLabel for="inputUsuario" value="Usuário:" />
+				<p:inputText id="inputUsuario"
+					value="#{cadastroMB.visao.entidade.username}" required="true"
+					requiredMessage="Usuario: Campo obrigatório!" autocomplete="false"
+					style="width: 100%;" disabled="#{cadastroMB.visao.edicao}" />
+				<p:outputLabel for="teste" value="Senha:" />
+				<p:password id="teste" value="#{cadastroMB.visao.entidade.password}"
+					feedback="true" label="Senha" weakLabel="Fraco" goodLabel="Bom"
+					strongLabel="Forte" inline="true" required="true"
+					requiredMessage="Senha: Campo obrigatório!" redisplay="true"
+					style="width: 100%;">
+					<f:validateLength minimum="6" for="inputPass" />
+				</p:password>
+
+				<p:outputLabel for="switchPermitido" value="Permitido:" />
+				<p:inputSwitch id="switchPermitido"
+					value="#{cadastroMB.visao.entidade.icPermitido}"
+					onLabel="#{msg.label_sim}" offLabel="#{msg.label_nao}">
+				</p:inputSwitch>
+
+				<p:outputLabel for="credenciais" value="Credenciais:" />
+				<p:selectManyMenu value="#{cadastroMB.visao.entidade.listaRole}"
+					id="credenciais" required="true" style="width: 100%;"
+					requiredMessage="Credencias: Selecione pelo menos uma!"
+					showCheckbox="true" converter="#{roleConverter}">
+					<f:attribute name="collectionType" value="java.util.ArrayList" />
+					<f:selectItems value="#{cadastroMB.visao.listaCredencial}"
+						var="role" itemLabel="#{role.noRole}" />
+				</p:selectManyMenu>
+				<p:column />
+				<p:column>
+					<p:commandButton id="btnSalvar" value="Salvar"
+						style="float: right;" icon="fa fa-check" ajax="false"
+						action="#{cadastroMB.salvarUsuarioInterno}" />
+					<p:commandButton id="btnVoltar" value="Voltar"
+						style="float: right;" icon="fa fa-angle-left" ajax="true"
+						immediate="true" action="#{cadastroMB.iniciar}" />
+				</p:column>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

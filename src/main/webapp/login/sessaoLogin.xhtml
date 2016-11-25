@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="REFRESH" content="10;url=/paginas/index.xhtml" />
+
+	<title>#{msg.titulo_login}</title>
+
+	<link rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css"
+		type="text/css" media="screen, projection" />
+	<h:outputScript name="geral.js" library="js" />
+</h:head>
+
+<h:body>
+	<div id="tudo">
+
+		<div id="wrapTopo">
+			<div id="topo">
+				<h1></h1>
+				<h2>#{msg.sistema_nome}</h2>
+			</div>
+		</div>
+
+		<div id="wrapMenuHor"></div>
+
+		<div id="wrapConteudo">
+			<div id="conteudo">
+				<div id="wrapAuxiliar">
+					<form method="post"
+						action="#{facesContext.externalContext.requestContextPath}/paginas/index.xhtml">
+						<center>
+							<h3>#{msg.titulo_login}</h3>
+							<h:outputText value="Sua sessão expirou por inatividade."
+								style="color: red; font-weight: bold; " />
+							<br /> <br />
+							<h:outputText style="color: black"
+								value="(A tela de login será reapresentada em 10 segundos)" />
+							<br /> <br /> <input id="botao" type="submit"
+								value="Acesso ao Login" class="rich-button"
+								style="margin-bottom: 24px; *width: 160px;"> </input>
+						</center>
+					</form>
+				</div>
+				<div id="util"></div>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<div id="wrapRodape">
+			<div id="rodape">
+				<p>#{msg.sistema} - #{msg.sistema_nome}</p>
+				<ul>
+					<li style="margin-left: 20px">Versão: #{msg.version}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

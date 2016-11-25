@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:component>
+	<h:form id="menuForm" prependId="false">
+
+		<p:menubar id="menuBar">
+
+			<p:menuitem value="#{msg.sistema_inicio}" ajax="false"
+				icon="fa fa-home" action="#{dashboardMB.iniciar()}" />
+
+			<p:menuitem value="#{msg.menu_disciplina}"
+				rendered="#{p:ifGranted('ROLE_DOCENTE')}" ajax="false"
+				icon="fa fa-th-list" action="#{disciplinaMB.iniciar()}" />
+
+			<p:menuitem value="#{msg.menu_matricular}"
+				rendered="#{p:ifGranted('ROLE_DISCENTE')}" ajax="false"
+				icon="fa fa-book" action="#{matriculaMB.iniciar()}" />
+
+			<p:submenu label="#{msg.menu_manutencao}"
+				rendered="#{p:ifGranted('ROLE_ADMIN')}" icon="fa fa-gear"
+				style="margin-left: 5px;">
+
+				<p:menuitem value="#{msg.menu_usuario}" ajax="false"
+					icon="fa fa-users" action="#{cadastroMB.iniciar()}" />
+			</p:submenu>
+
+			<f:facet name="options">
+				<p:button href="logout" value="#{msg.botao_sair}"
+					icon="fa fa-sign-out" />
+			</f:facet>
+		</p:menubar>
+
+		<p:sticky target="menuBar" />
+
+	</h:form>
+</ui:component>
+</html>

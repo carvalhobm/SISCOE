@@ -1,0 +1,12 @@
+language: java
+script: mvn clean install test sonar:sonar
+addons:
+  sonarqube:
+    token:
+      secure: "b010fc2175e04dc8ffcf43253b13449f041148d3"
+jdk:
+  - oraclejdk8
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'

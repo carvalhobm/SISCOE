@@ -1,0 +1,25 @@
+engines:
+  checkstyle:
+    enabled: true
+    channel: "beta"
+    config: 'config/checkstyle/checkstyle.xml'
+  pmd:
+    enabled: true
+    channel: "beta"
+  csslint:
+    enabled: false
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - "java"
+        - "javascript"
+  fixme:
+    enabled: true
+ratings:
+  paths:
+    - "java/**"
+    - "**.java"
+    - "**.js"
+exclude_paths:
+  - "**/webapp/*"

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core_1_1">
+
+<ui:composition template="/template/template.xhtml">
+
+	<ui:define name="breadgrub">
+		<h:form>
+			<h:commandLink id="breadInicio" styleClass="hiperlink"
+				value="#{msg.sistema_inicio}" action="/paginas/index.jsf" />
+
+			<p:outputLabel value="#{msg.bread_separator}" styleClass="marginLeft" />
+
+			<h:commandLink id="breadUsuario" styleClass="hiperlink"
+				value="Disciplinas"
+				action="/paginas/cadastroDisciplina/consulta.jsf" />
+		</h:form>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form prependId="false">
+
+			<h2 class="titulo" style="padding-left: 15px; padding-bottom: 5px;">#{msg.uc_cadastro_disciplina_titulo}</h2>
+
+			<p:panelGrid columns="2" columnClasses="ui-lg-2,ui-lg-2"
+				layout="grid" styleClass="ui-panelgrid-blank"
+				style="margin-left:auto; margin-right: auto;">
+
+				<p:outputLabel for="inputDiscplina" value="Disciplina:" />
+				<p:inputText id="inputDiscplina"
+					disabled="#{disciplinaMB.visao.detalhe}"
+					value="#{disciplinaMB.visao.entidade.noDisciplina}"
+					style="width: 100%;" />
+
+
+				<p:outputLabel for="oneMenuCargaHraria" value="Carga Horária:" />
+				<p:selectOneMenu id="oneMenuCargaHraria" style="width: 90%;"
+					value="#{disciplinaMB.visao.entidade.nuCargaHoraria}"
+					disabled="#{disciplinaMB.visao.detalhe}">
+					<f:selectItem itemValue="0" itemLabel="Selecionar" />
+					<f:selectItems value="#{disciplinaMB.visao.listaHoraria}"
+						var="carga" itemValue="#{carga.qtCargaHoraria}"
+						itemLabel="#{carga.noCargaHoraria}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="inputHrAula" value="Hora/Aula:" />
+				<p:inputText id="inputHrAula"
+					disabled="#{disciplinaMB.visao.detalhe}"
+					value="#{disciplinaMB.visao.entidade.nuHoraAula}"
+					style="width: 100%;" />
+
+				<p:outputLabel for="switchAtivo" value="Ativo:" />
+				<p:inputSwitch id="switchAtivo"
+					disabled="#{disciplinaMB.visao.detalhe}"
+					value="#{disciplinaMB.visao.entidade.icAtivo}"
+					onLabel="#{msg.label_sim}" offLabel="#{msg.label_nao}">
+				</p:inputSwitch>
+
+				<p:outputLabel for="inputFormulaFinal" value="Cálculo média final:" />
+				<p:column>
+					<p:inputText id="inputFormulaFinal"
+						disabled="#{disciplinaMB.visao.detalhe}"
+						value="#{disciplinaMB.visao.entidade.fmMediaFinal}"
+						style="width: 73%;" />
+					<p:commandButton icon="fa fa-calculator" styleClass="marginLeft"
+						title="Simular" update="modalSimularFormula"
+						action="#{disciplinaMB.abrirModalSimulacao()}" />
+				</p:column>
+			</p:panelGrid>
+
+			<p:panel id="panelVariaveis" header="Avaliações" toggleable="true"
+				toggleSpeed="500" widgetVar="panel" styleClass="marginTop"
+				collapsed="true">
+
+				<p:panelGrid id="gridVariavel" columns="2"
+					columnClasses="ui-lg-2,ui-lg-2" layout="grid"
+					styleClass="ui-panelgrid-blank"
+					style="margin-left:auto; margin-right: auto;"
+					rendered="#{not disciplinaMB.visao.detalhe}">
+
+					<p:outputLabel for="inputVariavel" value="Variável avaliação:" />
+					<p:inputText id="inputVariavel"
+						value="#{disciplinaMB.visao.avaliacao.noAvaliacao}"
+						style="width: 100%;" />
+
+					<p:outputLabel for="inputDescricao" value="Descrição Avaliação:" />
+					<p:inputTextarea id="inputDescricao"
+						value="#{disciplinaMB.visao.avaliacao.deAvaliacao}"
+						style="width: 100%;" rows="3" />
+					<p:column />
+					<p:commandButton id="btnSalvarVariavel" value="Incluir Avaliação"
+						style="float: right;" icon="fa fa-plus" ajax="false"
+						action="#{disciplinaMB.incluirAvaliacaoDisciplina}"
+						update="panelVariaveis"
+						process="@this inputVariavel inputDescricao" />
+				</p:panelGrid>
+
+				<p:separator styleClass="marginBottom marginTop" />
+
+				<p:dataTable id="tableAvaliacao"
+					value="#{disciplinaMB.visao.entidade.listaAvaliacao}"
+					var="avaliacao">
+					<p:column headerText="Avaliação" style="width: 10%;">
+						<p:outputLabel value="#{avaliacao.noAvaliacao}" />
+					</p:column>
+					<p:column headerText="Descrição">
+						<p:outputLabel value="#{avaliacao.deAvaliacao}" />
+					</p:column>
+					<p:column headerText="Ação" style="width: 10%; text-align: center;">
+						<p:commandButton icon="fa fa-close" title="Remover avaliação"
+							action="#{disciplinaMB.removerAvaliacaoDisciplina(avaliacao)}"
+							ajax="false" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+			<p:panelGrid columns="1" layout="grid"
+				styleClass="ui-panelgrid-blank"
+				style="margin-left:auto; margin-right: auto;">
+				<p:column>
+					<p:commandButton id="btnSalvar" value="Salvar"
+						style="float: right;" icon="fa fa-check" ajax="false"
+						action="#{disciplinaMB.salvarDisciplina}"
+						rendered="#{not disciplinaMB.visao.detalhe}" />
+					<p:commandButton id="btnVoltar" value="Voltar"
+						style="float: right;" icon="fa fa-angle-left" ajax="true"
+						immediate="true" action="#{disciplinaMB.iniciar}" />
+				</p:column>
+			</p:panelGrid>
+		</h:form>
+
+		<p:dialog id="modalSimularFormula" widgetVar="modalSimularFormulaWV"
+			modal="true" header="Simular Fórmula" closable="true"
+			closeOnEscape="true" resizable="false">
+			<h:form>
+
+				<p:outputLabel value="#{disciplinaMB.visao.entidade.fmMediaFinal}" />
+
+				<p:repeat var="variavel"
+					value="#{disciplinaMB.visao.listaAvaliacaoSimulacao}">
+					<p:panelGrid columns="1" layout="grid"
+						styleClass="ui-panelgrid-blank"
+						style="margin-left:auto; margin-right: auto;">
+						<p:outputLabel value="#{variavel.noAvaliacao}:" />
+						<p:inputNumber value="#{variavel.vrAvaliacao}"
+							decimalSeparator="," thousandSeparator="."
+							style="margin-left: auto;" />
+					</p:panelGrid>
+				</p:repeat>
+				<p:panelGrid columns="1" layout="grid"
+					styleClass="ui-panelgrid-blank"
+					style="margin-left:auto; margin-right: auto;">
+					<p:outputLabel id="labelResultadoSimulacao"
+						value="Resultado: #{disciplinaMB.visao.resultadoSimulacao}"
+						rendered="#{disciplinaMB.visao.resultadoSimulacao ne null}" />
+					<p:commandButton actionListener="#{disciplinaMB.simularCalculo()}"
+						icon="fa fa-calculator" ajax="true" global="false" update="@form" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template/template.xhtml">
+
+	<ui:define name="breadgrub">
+		<h:form>
+			<h:commandLink id="breadInicio" styleClass="hiperlink"
+				value="#{msg.sistema_inicio}" action="/paginas/index.jsf" />
+
+			<p:outputLabel value="#{msg.bread_separator}" styleClass="marginLeft" />
+
+			<h:commandLink id="breadUsuario" styleClass="hiperlink"
+				value="Disciplinas"
+				action="/paginas/cadastroDisciplina/consulta.jsf" />
+
+			<p:outputLabel value="#{msg.bread_separator}" styleClass="marginLeft" />
+
+			<h:commandLink id="breadUsuarioDisciplina" styleClass="hiperlink"
+				value="Administrar Disciplina"
+				action="/paginas/cadastroDisciplina/relatorio.jsf" />
+		</h:form>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form prependId="false">
+
+			<h2 class="titulo" style="padding-left: 15px; padding-bottom: 5px;">#{msg.uc_cadastro_disciplina_administrar_disciplina}</h2>
+			<fieldset>
+				<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+					<p:outputLabel value="Disciplina:" />
+					<p:outputLabel value="#{disciplinaMB.visao.entidade.noDisciplina}" />
+					<p:outputLabel value="Carga Horária:" />
+					<p:outputLabel
+						value="#{disciplinaMB.visao.entidade.nuCargaHoraria}" />
+					<p:outputLabel value="Média Final:" />
+					<p:outputLabel value="#{disciplinaMB.visao.entidade.fmMediaFinal}" />
+				</p:panelGrid>
+
+			</fieldset>
+
+			<p:dataTable id="tableDisciplina" paginator="true" rows="10"
+				styleClass="marginTop"
+				value="#{disciplinaMB.visao.entidade.listaUsuarioDisciplina}"
+				var="disciplina" style="width: 100%;" emptyMessage="#{msg.MA001}"
+				paginatorPosition="bottom" paginatorAlwaysVisible="false"
+				sortBy="#{disciplina.usuario.noUsuario}" sortOrder="ascending">
+
+				<f:facet name="header">
+					<p:outputLabel value="Resultados" />
+				</f:facet>
+
+				<p:column headerText="Aluno" style="width: 70%;">
+					<p:outputLabel
+						value="#{disciplina.usuario.noUsuario} #{disciplina.usuario.noSobrenomeUsuario}" />
+				</p:column>
+
+				<p:column headerText="Média Final"
+					style="width: 10%; text-align: center;">
+					<p:outputLabel value="#{disciplina.vrMediaFinal}" />
+				</p:column>
+				<p:column headerText="Faltas"
+					style="width: 10%; text-align: center;">
+					<p:outputLabel value="#{disciplina.qtFaltas}" />
+				</p:column>
+
+				<p:column headerText="Ação" style="width: 10%; text-align: center;">
+					<p:commandButton icon="fa fa-plus-circle"
+						style="vertical-align: sub;" title="#{msg.hint_registrar_falta}"
+						ajax="false" update="tableDisciplina"
+						action="#{dashboardMB.registrarFalta(disciplina)}" />
+					<p:commandButton icon="fa fa-pencil" style="vertical-align: sub;"
+						title="#{msg.uc_cadastro_disciplina_cadastrar_notas}"
+						update="modalCadastrarNotas"
+						oncomplete="PF('modalCadastrarNotasWV').show();"
+						action="#{disciplinaMB.abrirCadastrarNotas(disciplina)}" />
+				</p:column>
+
+			</p:dataTable>
+			<p:panelGrid columns="1" layout="grid"
+				styleClass="ui-panelgrid-blank"
+				style="margin-left:auto; margin-right: auto;">
+				<p:column>
+					<p:commandButton id="btnVoltar" value="Voltar"
+						style="float: right;" icon="fa fa-angle-left" ajax="true"
+						immediate="true" action="#{disciplinaMB.iniciar}" />
+				</p:column>
+			</p:panelGrid>
+		</h:form>
+
+		<p:dialog id="modalCadastrarNotas" widgetVar="modalCadastrarNotasWV"
+			modal="true" closeOnEscape="true" draggable="true"
+			header="#{msg.uc_cadastro_disciplina_cadastrar_notas}">
+			<h:form prependId="false">
+				<p:repeat var="avaliacao"
+					value="#{disciplinaMB.visao.usuarioDisciplina.listaAvaliacaoUsuario}">
+					<p:panelGrid columns="1" layout="grid"
+						styleClass="ui-panelgrid-blank"
+						style="margin-left:auto; margin-right: auto;">
+						<p:outputLabel value="#{avaliacao.avaliacao.noAvaliacao}:" />
+						<p:inputNumber value="#{avaliacao.vrAvaliacao}"
+							decimalSeparator="," thousandSeparator="."
+							style="margin-left: auto;" />
+					</p:panelGrid>
+				</p:repeat>
+				<p:panelGrid columns="1" layout="grid"
+					styleClass="ui-panelgrid-blank"
+					style="margin-left:auto; margin-right: auto;">
+					<p:commandButton id="btnSalvarNotas"
+						actionListener="#{disciplinaMB.salvarNotas()}"
+						value="#{msg.botao_salvar}" icon="fa fa-check" ajax="true"
+						global="false" update="tableDisciplina"
+						oncomplete="PF('modalCadastrarNotasWV').hide();" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
+
+</html>

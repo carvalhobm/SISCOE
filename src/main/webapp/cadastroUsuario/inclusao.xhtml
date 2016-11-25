@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template/template_externo.xhtml">
+
+	<ui:define name="content">
+
+		<h:form>
+
+			<h2 class="titulo" style="padding-left: 15px; padding-bottom: 5px;">Cadastro
+				de usuário</h2>
+
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+
+			<p:panelGrid columns="2" columnClasses="ui-lg-1,ui-lg-2"
+				layout="grid" styleClass="ui-panelgrid-blank"
+				style="margin-left:auto; margin-right: auto;">
+
+				<p:outputLabel for="inputNome" value="Nome:" />
+				<p:inputText id="inputNome"
+					value="#{cadastroMB.visao.entidade.noUsuario}" required="true"
+					requiredMessage="Usuário: Valor obrigatório!" />
+
+				<p:outputLabel for="inputSobreNome" value="Sobrenome:" />
+				<p:inputText id="inputSobreNome"
+					value="#{cadastroMB.visao.entidade.noSobrenomeUsuario}"
+					required="true" requiredMessage="Sobrenome: Valor obrigatório!" />
+
+				<p:outputLabel for="inputEmail" value="E-mail:" />
+				<p:inputText id="inputEmail"
+					value="#{cadastroMB.visao.entidade.noEmail}" required="true"
+					requiredMessage="E-mail: Valor obrigatório!" />
+
+				<p:outputLabel for="inputUsuario" value="Usuário:" />
+				<p:inputText id="inputUsuario"
+					value="#{cadastroMB.visao.entidade.username}" required="true"
+					requiredMessage="Usuario: Valor obrigatório!" />
+				<p:outputLabel for="inputPass" value="Senha:" />
+				<p:password id="inputPass"
+					value="#{cadastroMB.visao.entidade.password}" feedback="true"
+					label="Senha" weakLabel="Fraco" goodLabel="Bom" strongLabel="Forte"
+					inline="true" required="true"
+					requiredMessage="Senha: Valor obrigatório!">
+					<f:validateLength minimum="6" for="inputPass" />
+				</p:password>
+				<p:column />
+				<p:commandButton id="btnSalvar" value="Salvar" style="float: right;"
+					icon="fa fa-check" ajax="false"
+					action="#{cadastroMB.salvarUsuario}" />
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

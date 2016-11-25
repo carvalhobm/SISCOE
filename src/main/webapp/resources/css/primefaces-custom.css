@@ -1,0 +1,29 @@
+.ui-menu.ui-widget li.ui-corner-all, .ui-menu.ui-widget a.ui-corner-all
+	{
+	border-radius: 5px;
+}
+
+.ui-menu.ui-widget .ui-menuitem-link .ui-menuitem-icon {
+	margin-left: 0.3em;
+	margin-right: -0.2em;
+	padding-left: 3px;
+}
+
+.ui-menu.ui-widget .ui-menuitem-link .ui-menuitem-text {
+	margin-left: 0.4em;
+	padding-right: 5px;
+}
+
+/* Header dataTable */
+.ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+	text-align: left;
+	padding: 4px 10px;
+}
+
+.ui-widget-header {
+	border: 0px solid;
+	background: transparent;
+	color: #333333;
+	font-weight: bold;
+	color: #333333;
+}
